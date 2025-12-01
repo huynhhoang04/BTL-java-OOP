@@ -151,8 +151,6 @@ public class GamePlayController {
                         rs.getInt("base_dmg"),
                         rs.getString("tower_img_url")
                 );
-                // nếu sau này ông muốn dùng field enable thì có thể thêm setter:
-                // t.setEnable(rs.getBoolean("is_enabled"));
                 list.add(t);
             }
         }
@@ -165,6 +163,7 @@ public class GamePlayController {
 
 
 }
+
 
 
 
