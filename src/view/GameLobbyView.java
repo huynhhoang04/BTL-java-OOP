@@ -53,11 +53,6 @@ public class GameLobbyView {
             root.getChildren().add(bg);
         }
 
-        // ===== CENTER: khu trống để sau hiển thị map/preview =====
-        StackPane center = new StackPane();
-        center.setPadding(new Insets(10));
-        root.setCenter(center);
-
         // ===== RIGHT: hộp gold + cột nút =====
         VBox right = new VBox(16);
         right.setPadding(new Insets(12, 16, 16, 12));
@@ -80,7 +75,7 @@ public class GameLobbyView {
           + "-fx-border-color: #2a1294ff;"
           + "-fx-border-width: 2;"
         );
-        ImageView goldIcon = new ImageView("/tainguyen/pic/goldicon.png"); // để trống icon, bạn tự set sau
+        ImageView goldIcon = new ImageView("/tainguyen/pic/goldicon.png");
         goldIcon.setFitWidth(20); goldIcon.setFitHeight(20);
         Label goldLbl = new Label(String.valueOf(user.getGold()));
         Timeline refresher = new Timeline(
@@ -95,7 +90,7 @@ public class GameLobbyView {
         goldLbl.setTextFill(Color.web("#FFD94A"));
         goldBox.getChildren().addAll(goldIcon, goldLbl);
 
-        // Cột nút: Settings / Map / Info
+        // Cột nút
         VBox rightBtns = new VBox(16);
         rightBtns.setAlignment(Pos.CENTER);
         NeonButton btnSettings = new NeonButton("SETTINGS");
@@ -112,7 +107,7 @@ public class GameLobbyView {
         VBox bottom = new VBox(16);
         bottom.setPadding(new Insets(16, 16, 16, 0));
         bottom.setAlignment(Pos.CENTER);
-        // account (trái)
+        
         Label accName = new Label(user.getUsername());
         accName.setFont(GameFont.get(16));
         accName.setTextFill(Color.web("#9ecbff"));
@@ -121,11 +116,11 @@ public class GameLobbyView {
         Region spacerL = new Region(); HBox.setHgrow(spacerL, Priority.ALWAYS);
         Region spacerR = new Region(); HBox.setHgrow(spacerR, Priority.ALWAYS);
 
-        // To Battle (giữa)
+        
         NeonButton toBattle = new NeonButton("TO BATTLE");
         toBattle.setPrefWidth(300);
 
-        // nhóm nút phải: Shop / Pull / Buy
+        // nhóm nút phải
         VBox rightGroup = new VBox(16);
         rightGroup.setAlignment(Pos.CENTER);
         NeonButton btnInven = new NeonButton("INVENTORY");
@@ -142,7 +137,7 @@ public class GameLobbyView {
         root.setLeft(bottom);
         Scene scene = new Scene(root, w, h);
 
-        // ===== handlers (stub) =====
+        //handlers
         toBattle.setOnAction(e -> {
             showBattleOverlay(root, scene, user);
         });
@@ -163,7 +158,6 @@ public class GameLobbyView {
     }
 
     private static void showSettingsOverlay(BorderPane root, Scene scene, User user) {
-    // 1) Nếu scene root KHÔNG phải StackPane thì bọc vào StackPane
     if (!(scene.getRoot() instanceof StackPane)) {
         BorderPane old = (BorderPane) scene.getRoot();
         StackPane stack = new StackPane(old);
@@ -171,15 +165,13 @@ public class GameLobbyView {
     }
     StackPane stackRoot = (StackPane) scene.getRoot();
 
-    // 2) Overlay full màn
     StackPane overlay = new StackPane();
     overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
-    overlay.setPickOnBounds(true); // chặn click xuyên
-    // bind kích thước để phủ kín
+    overlay.setPickOnBounds(true);
     overlay.prefWidthProperty().bind(stackRoot.widthProperty());
     overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
-    // 3) Panel settings ở GIỮA
+    //  Panel settings ở GIỮA
     VBox panel = new VBox(12);
     panel.setAlignment(Pos.CENTER);
     panel.setPadding(new Insets(18));
@@ -214,7 +206,7 @@ public class GameLobbyView {
     panel.getChildren().addAll(title, musicBtn, logoutBtn, closeBtn);
     overlay.getChildren().add(panel);
 
-    // 4) Thêm overlay lên trên cùng, căn giữa panel
+    // Thêm overlay lên trên cùng, căn giữa panel
     stackRoot.getChildren().add(overlay);
     StackPane.setAlignment(panel, Pos.CENTER);
     }
@@ -233,8 +225,7 @@ public class GameLobbyView {
 
         StackPane overlay = new StackPane();
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
-        overlay.setPickOnBounds(true); // chặn click xuyên
-        // bind kích thước để phủ kín
+        overlay.setPickOnBounds(true); 
         overlay.prefWidthProperty().bind(stackRoot.widthProperty());
         overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
@@ -249,7 +240,7 @@ public class GameLobbyView {
           + "-fx-border-width: 2;"
         );
 
-        Label lbGuild = GameFont.makeTitle("Đéo có gì đâu mà xem", 26);
+        Label lbGuild = GameFont.makeTitle("Bam choi", 26);
 
         NeonButton closeBtn = new NeonButton("CLOSE");
         closeBtn.setPrefWidth(220);
@@ -276,8 +267,7 @@ public class GameLobbyView {
 
         StackPane overlay = new StackPane();
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
-        overlay.setPickOnBounds(true); // chặn click xuyên
-        // bind kích thước để phủ kín
+        overlay.setPickOnBounds(true); 
         overlay.prefWidthProperty().bind(stackRoot.widthProperty());
         overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
@@ -292,7 +282,7 @@ public class GameLobbyView {
           + "-fx-border-width: 2;"
         );
 
-        Label lbInfo = GameFont.makeTitle("Project của em huynh, hãy donate để em huynh có tiền đi ăn hàu", 26);
+        Label lbInfo = GameFont.makeTitle("project cua huynh hoang", 26);
 
         NeonButton closeBtn = new NeonButton("CLOSE");
         closeBtn.setPrefWidth(220);
@@ -336,7 +326,7 @@ public class GameLobbyView {
     // Title
     Label title = GameFont.makeTitle("PULL", 26);
 
-    // 4 ô LỰA CHỌN CHEST (Bronze / Silver / Gold / Legend)
+    // 4 ô LỰA CHỌN CHEST
     HBox choiceRow = new HBox(20);
     choiceRow.setAlignment(Pos.CENTER);
     choiceRow.setPadding(new Insets(8, 0, 6, 0));
@@ -354,10 +344,9 @@ public class GameLobbyView {
 
     choiceRow.getChildren().addAll(bronze, silver, gold, legend);
 
-    // Nút PULL (để trống xử lý – bạn tự code logic sau)
+    // Nút PULL
     NeonButton btnPull = new NeonButton("PULL");
     btnPull.setPrefWidth(220);
-    // ví dụ nếu muốn disable khi chưa chọn: (bạn có thể bỏ nếu không cần)
     btnPull.disableProperty().bind(chestGroup.selectedToggleProperty().isNull());
 
     btnPull.setOnAction(e ->{
@@ -392,11 +381,9 @@ public class GameLobbyView {
     btnClose.setPrefWidth(220);
     btnClose.setOnAction(e -> stackRoot.getChildren().remove(overlay));
 
-    // Footer: PULL trên, CLOSE dưới (đúng phác thảo)
     VBox footer = new VBox(10, note,  btnPull, btnClose);
     footer.setAlignment(Pos.CENTER);
 
-    // Lắp vào panel & overlay
     panel.getChildren().addAll(title, choiceRow, footer);
     overlay.getChildren().add(panel);
     stackRoot.getChildren().add(overlay);
@@ -446,8 +433,7 @@ public class GameLobbyView {
 
         StackPane overlay = new StackPane();
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
-        overlay.setPickOnBounds(true); // chặn click xuyên
-        // bind kích thước để phủ kín
+        overlay.setPickOnBounds(true);
         overlay.prefWidthProperty().bind(stackRoot.widthProperty());
         overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
@@ -491,7 +477,7 @@ public class GameLobbyView {
     }
 
     private static VBox makeShopCard(String name, String priceText, String qtyText, User user, Item item) {
-    // Khung thumbnail (placeholder)
+    // Khung thumbnail 
         StackPane thumb = new StackPane();
         thumb.setPrefSize(110, 90);
         thumb.setStyle(
@@ -611,14 +597,14 @@ public class GameLobbyView {
     }
     StackPane stackRoot = (StackPane) scene.getRoot();
 
-    // --- Overlay tối phủ toàn màn hình ---
+    // Overlay tối phủ toàn màn hình
     StackPane overlay = new StackPane();
     overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
     overlay.setPickOnBounds(true);
     overlay.prefWidthProperty().bind(stackRoot.widthProperty());
     overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
-    // --- Panel chính ---
+    //Panel chính
     VBox panel = new VBox(16);
     panel.setAlignment(Pos.CENTER);
     panel.setPadding(new Insets(20));
@@ -631,7 +617,7 @@ public class GameLobbyView {
 
     Label title = GameFont.makeTitle("INVENTORY", 28);
 
-    // --- Card center: ảnh + name + dmg ---
+    // Card center
     VBox card = new VBox(8);
     card.setAlignment(Pos.CENTER);
     card.setMinSize(260, 260);
@@ -650,7 +636,7 @@ public class GameLobbyView {
     lbDmg.setStyle("-fx-text-fill:#cfd8dc; -fx-font-size:16;");
     card.getChildren().addAll(img, lbName, lbDmg);
 
-    // --- 2 nút mũi tên trái/phải ---
+    // 2 nút mũi tên
     NeonButton btnPrev = new NeonButton("<");
     NeonButton btnNext = new NeonButton(">");
     btnPrev.setPrefWidth(60);
@@ -659,12 +645,11 @@ public class GameLobbyView {
     HBox middle = new HBox(16, btnPrev, card, btnNext);
     middle.setAlignment(Pos.CENTER);
 
-    // --- Nút Close ---
+    // Nút Close
     NeonButton btnClose = new NeonButton("CLOSE");
     btnClose.setPrefWidth(220);
     btnClose.setOnAction(e -> stackRoot.getChildren().remove(overlay));
 
-    // --- Logic duyệt danh sách ---
     final int[] idx = {0};
 
     Runnable refresh = () -> {
@@ -688,7 +673,6 @@ public class GameLobbyView {
     btnPrev.setOnAction(e -> { idx[0]--; refresh.run(); });
     btnNext.setOnAction(e -> { idx[0]++; refresh.run(); });
 
-    // lần đầu
     refresh.run();
 
     panel.getChildren().addAll(title, middle, btnClose);
@@ -698,22 +682,18 @@ public class GameLobbyView {
     }
 
     private static void showBattleOverlay(BorderPane root, Scene scene, User user) {
-        // 1) Nếu scene root KHÔNG phải StackPane thì bọc vào StackPane
         if (!(scene.getRoot() instanceof StackPane)) {
             BorderPane old = (BorderPane) scene.getRoot();
             StackPane stack = new StackPane(old);
             scene.setRoot(stack);
         }
         StackPane stackRoot = (StackPane) scene.getRoot();
-
-        // 2) Overlay che toàn màn
         StackPane overlay = new StackPane();
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
         overlay.setPickOnBounds(true);
         overlay.prefWidthProperty().bind(stackRoot.widthProperty());
         overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
-        // 3) Panel ở giữa
         VBox panel = new VBox(18);
         panel.setAlignment(Pos.CENTER);
         panel.setPadding(new Insets(24));
@@ -734,10 +714,9 @@ public class GameLobbyView {
         NeonButton btnReturn = new NeonButton("RETURN");
         btnReturn.setPrefWidth(220);
 
-        // RETURN: đóng overlay, về lại Lobby (không đổi scene)
         btnReturn.setOnAction(ev -> stackRoot.getChildren().remove(overlay));
 
-        // PLAY: sang GamePlayView (map tương ứng base_level)
+        // PLAY: sang GamePlayView 
         btnPlay.setOnAction(ev -> {
             Stage stage = (Stage) scene.getWindow();
             Scene backScene = scene; // scene Lobby để quay lại
@@ -766,8 +745,7 @@ public class GameLobbyView {
 
         StackPane overlay = new StackPane();
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
-        overlay.setPickOnBounds(true); // chặn click xuyên
-        // bind kích thước để phủ kín
+        overlay.setPickOnBounds(true); 
         overlay.prefWidthProperty().bind(stackRoot.widthProperty());
         overlay.prefHeightProperty().bind(stackRoot.heightProperty());
 
@@ -796,4 +774,5 @@ public class GameLobbyView {
         stackRoot.getChildren().add(overlay);
         StackPane.setAlignment(panel, Pos.CENTER);
     }
+
 }
