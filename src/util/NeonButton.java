@@ -38,8 +38,8 @@ public class NeonButton extends Button {
         setTextFill(Color.WHITE);
 
         String baseStyle =
-                "-fx-background-color: #1e1e1e;" +   // nền tối
-                "-fx-border-color: steelblue;" +         // viền trắng
+                "-fx-background-color: #1e1e1e;" +   
+                "-fx-border-color: steelblue;" +        
                 "-fx-border-width: 1;" +
                 "-fx-border-radius: 0;" +
                 "-fx-background-radius: 0;" +
@@ -83,5 +83,3 @@ public class NeonButton extends Button {
 
 }
 
-
-// code của em huynh và chattgpt em xin lỗi cô vì em đéo biết code front end ttthees nên là phải gì phải chịu
