@@ -95,10 +95,9 @@ public class GamePlayView extends StackPane {
 
         loadConfigForUser();   // lấy Level + Map + Waves + EnemyTypes từ DB
         initGameState();  
-        initWavesRuntime();     // set HP base ban đầu
+        initWavesRuntime();    
         buildUI();
         startGameLoop();
-            // dựng giao diện cơ bản
     }
 
     private void loadConfigForUser() {
@@ -118,7 +117,7 @@ public class GamePlayView extends StackPane {
 
             availableTowers = ctrl.loadTowers(user.getId());
 
-            // Enemy types dùng trong level này
+            // Enemy types 
             var ids = new java.util.HashSet<Integer>();
             for (Wave w : wavesConfig) {
                 ids.add(w.getEnemyTypeId());
@@ -144,14 +143,13 @@ public class GamePlayView extends StackPane {
     private void buildUI() {
         setPrefSize(WIDTH, HEIGHT);
 
-        // ===== lớp map =====
         mapLayer = new Pane();
         mapLayer.setPrefSize(WIDTH, HEIGHT);
         mapLayer.setBackground(new Background(
                 new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)
         ));
 
-        // vẽ background map nếu có config
+        // vẽ map
         if (mapConfig != null && mapConfig.getBackgroundUrl() != null) {
             try {
                 Image bg = new Image(Objects.requireNonNull(
@@ -162,7 +160,7 @@ public class GamePlayView extends StackPane {
                 bgView.setPreserveRatio(false);
                 mapLayer.getChildren().add(bgView);
             } catch (Exception e) {
-                e.printStackTrace(); // nếu sai path thì vẫn còn màu nền DARKSLATEGRAY
+                e.printStackTrace(); 
             }
         }
 
@@ -172,7 +170,7 @@ public class GamePlayView extends StackPane {
             pathPoints = new ArrayList<>();
         }
 
-            // vẽ đường đi cho enemy
+            // vẽ đường đi 
         if (!pathPoints.isEmpty()) {
             Polyline pathLine = createPathShape(pathPoints);
             mapLayer.getChildren().add(pathLine);
@@ -187,7 +185,7 @@ public class GamePlayView extends StackPane {
             mapLayer.getChildren().addAll(towerSlots);
         }
 
-        // ===== thanh HP góc phải =====
+        // thanh HP 
         HBox hpBox = new HBox();
         hpBox.setAlignment(Pos.CENTER_RIGHT);
         hpBox.setSpacing(8);
@@ -208,18 +206,17 @@ public class GamePlayView extends StackPane {
         topPane.setLeft(hpBox);
         topPane.setPickOnBounds(false);
 
-        // ===== thanh dưới (để trống, sau này thêm tower bar) =====
         HBox towerBar = new HBox(12);
         towerBar.setPadding(new Insets(10));
         towerBar.setAlignment(Pos.CENTER);
 
         for (Tower t : availableTowers) {
             StackPane icon = createTowerButton(t);
-            towerIconNodes.put(t, icon);   // lưu lại để còn chỉnh opacity / disable
+            towerIconNodes.put(t, icon);  
             towerBar.getChildren().add(icon);
         }
 
-        // ===== nút Return =====
+        //  nút Return 
         NeonButton btnReturn = new NeonButton("Return");
         btnReturn.setOnAction(e -> {
             if (onReturn != null) onReturn.run();
@@ -281,8 +278,6 @@ public class GamePlayView extends StackPane {
         return list;
     }
 
-    // ================== INNER CLASSES ==================
-
     private static class WaveRuntime {
             Wave config;
             int spawned = 0;
@@ -307,7 +302,7 @@ public class GamePlayView extends StackPane {
                 this.view = new Circle(20);
 
                 try {
-                    String path = type.getSpriteUrl(); // vd: "/tainguyen/pic/ingameasset/enemy1.png"
+                    String path = type.getSpriteUrl(); 
                     Image img;
                     InputStream is = getClass().getResourceAsStream(path);
                     if (is != null) {
@@ -317,7 +312,7 @@ public class GamePlayView extends StackPane {
                     }
                     view.setFill(new ImagePattern(img));
                 } catch (Exception e) {
-                    // nếu lỗi thì dùng màu đỏ cho chắc
+                    // nếu lỗi thì dùng màu đỏ 
                     view.setFill(Color.RED);
                 }
 
@@ -550,23 +545,23 @@ public class GamePlayView extends StackPane {
         if (selectedTower == null) return;
         if (slotTowers.containsKey(slot)) return;
 
-        // tower đang cooldown → không cho đặt
+        // tower đang cooldown thi không cho đặt
         if (isTowerOnCooldown(selectedTower)) return;
 
         TowerInstance ti = new TowerInstance(selectedTower,
                 slot.getCenterX(), slot.getCenterY());
         slotTowers.put(slot, ti);
 
-        // bắt đầu cooldown cho loại tower này
+        // bắt đầu cooldown
         startTowerCooldown(selectedTower);
     }
 
     private class TowerInstance {
         private final Tower type;
         private final ImageView view;
-        private double range = 150;           // tầm bắn
-        private double attackInterval = 1.0;  // giây / phát
-        private double timeSinceLastShot = 0; // thời gian từ lần bắn trước
+        private double range = 150;           
+        private double attackInterval = 1.0; 
+        private double timeSinceLastShot = 0; 
         private int damage;
 
 
@@ -585,7 +580,7 @@ public class GamePlayView extends StackPane {
                     System.out.println("Tower image NOT FOUND: " + path);
                 }
             } catch (Exception e) {
-                img = new Image("file:src/tainguyen/pic/ingameasset/default_tower.png");
+                e.printStackTrace();
             }
 
             view = new ImageView(img);
@@ -609,15 +604,13 @@ public class GamePlayView extends StackPane {
             EnemyInstance target = findTarget();
             if (target == null) return;
 
-            // --- xoay tower theo hướng enemy ---
+            // xoay tower theo hướng enemy 
             double towerCx = view.getTranslateX() + 24;
             double towerCy = view.getTranslateY() + 24;
             double dx = target.getX() - towerCx;
             double dy = target.getY() - towerCy;
 
             double angle = Math.toDegrees(Math.atan2(dy, dx)); 
-            // nếu sprite gốc quay lên trên thì có thể cần +90 hoặc -90:
-            // angle += 90;
             view.setRotate(angle);
 
             // cooldown bắn
@@ -638,10 +631,10 @@ public class GamePlayView extends StackPane {
             ScaleTransition st = new ScaleTransition(Duration.seconds(0.08), view);
             st.setFromX(1.0);
             st.setFromY(1.0);
-            st.setToX(0.9);   // giật nhẹ
+            st.setToX(0.9); 
             st.setToY(0.9);
             st.setAutoReverse(true);
-            st.setCycleCount(2); // thu vào -> trả lại
+            st.setCycleCount(2); 
             st.play();
         }
 
@@ -712,7 +705,6 @@ public class GamePlayView extends StackPane {
 
             if (dist < 1e-6) dist = 1e-6;
 
-            // đến gần enemy → trúng
             if (dist < 10) {
                 target.takeDamage(damage);
                 destroy();
@@ -741,10 +733,9 @@ public class GamePlayView extends StackPane {
     }
 
     private void checkWinCondition() {
-        if (gameWon) return;           // đã win rồi thì thôi
+        if (gameWon) return;           
         if (baseHpCurrent <= 0) return; // thua rồi thì không xử lý thắng
 
-        // tất cả wave đã spawn xong?
         boolean allCompleted = true;
         for (WaveRuntime wr : waveRuntimes) {
             if (!wr.completed) {
@@ -754,7 +745,6 @@ public class GamePlayView extends StackPane {
         }
         if (!allCompleted) return;
 
-        // vẫn còn enemy trên map thì chưa win
         if (!enemies.isEmpty()) return;
 
         // đủ điều kiện thắng
@@ -790,7 +780,7 @@ public class GamePlayView extends StackPane {
         NeonButton btn = new NeonButton("Return");
         btn.setOnAction(e -> {
             if (onReturn != null) {
-                onReturn.run();   // quay lại màn trước (lobby / chọn map)
+                onReturn.run();   // quay lại màn trước 
             }
         });
 
@@ -828,7 +818,7 @@ public class GamePlayView extends StackPane {
         NeonButton btn = new NeonButton("Return");
         btn.setOnAction(e -> {
             if (onReturn != null) {
-                onReturn.run();  // quay lại lobby / map select
+                onReturn.run();  // quay lại lobby 
             }
         });
 
@@ -883,4 +873,5 @@ public class GamePlayView extends StackPane {
     public java.util.List<Wave> getWavesConfig() { return wavesConfig; }
     public java.util.Map<Integer, EnemyType> getEnemyTypesConfig() { return enemyTypesConfig; }
 }
+
 
