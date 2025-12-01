@@ -22,7 +22,7 @@ public class RegisterController {
         // query nưa nè
         try {
             Connection conn = DBConnection.getConnection();
-            // thấy cái return gen key mầu tím ko mấy con chó tải sao phải có nó vì khi mấy thawg ngu cm chạy cái câu insert trên kia kìa nó sẽ chỉ trả ra had chage lồn lồn gì dko mà rs thì nó cần lấy id vậy thì cần trả về cả id để cho thg rs đọc dko nếu ko có thì nó sẽ trả ra null và chung quy là bulon
+            //  return gen key mầu tím chạy cái câu insert trên kia kìa nó sẽ chỉ trả ra had chage rs thì nó cần lấy id vậy thì cần trả về cả id 
             PreparedStatement prest = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             PreparedStatement newaccitem = conn.prepareStatement(queryforitem);
 
@@ -31,9 +31,9 @@ public class RegisterController {
 
             int cothaydoirownaoko = prest.executeUpdate();
             System.out.println(cothaydoirownaoko);
-            // cai này xem là exe cu te xong tttht neu thanh cong ay no hiệu là bao nhieu row đã change ấy may tthg ngu ạ
+            //  exe cu te xong tttht neu thanh cong ay no hiệu là bao nhieu row đã change 
             if(cothaydoirownaoko > 0){
-                // lay id la prime kry nè 
+                // lay id la prime kry  
                 ResultSet rs = prest.getGeneratedKeys();
                 if(rs.next()){
                     int id = rs.getInt(1);
@@ -54,4 +54,3 @@ public class RegisterController {
     }
 }
 
-// code của em huynh
