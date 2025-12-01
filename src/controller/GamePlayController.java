@@ -129,40 +129,41 @@ public class GamePlayController {
     }
 
     public List<Tower> loadTowers(long accountId) throws SQLException {
-    String sql = """
-        SELECT tc.id, tc.name, tc.tier, tc.base_dmg, tc.tower_img_url, tc.is_enabled
-        FROM account_towers at
-        JOIN tower_catalog tc ON at.tower_id = tc.id
-        WHERE at.account_id = ?
-          AND tc.is_enabled = TRUE
-    """;
+        String sql = """
+            SELECT tc.id, tc.name, tc.tier, tc.base_dmg, tc.tower_img_url, tc.is_enabled
+            FROM account_towers at
+            JOIN tower_catalog tc ON at.tower_id = tc.id
+            WHERE at.account_id = ?
+              AND tc.is_enabled = TRUE
+        """;
 
-    List<Tower> list = new ArrayList<>();
-
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setLong(1, accountId);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Tower t = new Tower(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getInt("tier"),
-                        rs.getInt("base_dmg"),
-                        rs.getString("tower_img_url")
-                );
-                list.add(t);
+        List<Tower> list = new ArrayList<>();
+    
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, accountId);
+    
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Tower t = new Tower(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getInt("tier"),
+                            rs.getInt("base_dmg"),
+                            rs.getString("tower_img_url")
+                    );
+                    list.add(t);
+                }
             }
         }
+    
+        return list;
     }
 
-    return list;
-}
-
 
 
 
 }
+
 
 
 
