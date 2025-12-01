@@ -105,7 +105,6 @@ public class StartScreen {
             }
             User ok = new LoginController().HandleLogin(u, p);
             if (ok != null) {
-                // TODO: chuyển sang GameView
                 error.setVisible(false);
                 content.getChildren().setAll(GameFont.makeTitle("LOADING...", 22));
                 Stage stage = (Stage) content.getScene().getWindow();
@@ -160,4 +159,5 @@ public class StartScreen {
         content.getChildren().setAll(title, tfUser, pfPass, note, btn);
     }
 }
+
 
