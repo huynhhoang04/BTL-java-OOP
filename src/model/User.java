@@ -17,13 +17,13 @@ public class User {
         setBaseLeval(base_level);
     }
 
-    // cho login nhá bấy nì va cho car dawng ky luon ko can email dau vi em huynh luc tao db quen con me no column email r
+    // cho login va cho car dawng ky luon ko can email 
     public User(String username, String password){
         setUsername(username);
         setPassword(password);
     }
 
-    //setter và getter nhá cho e quân hiệu
+    //setter và getter 
     public void setUsername(String username){
         if(!username.equals("")){
             this.username = username;
@@ -95,6 +95,7 @@ public class User {
     }
 }
 
-//coode của em huynh
+
+
 
 
